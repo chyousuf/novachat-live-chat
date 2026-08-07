@@ -114,8 +114,12 @@ $opts = self::get_options();
                             <label for="gemini_model"><strong><?php esc_html_e( 'Gemini AI Model', 'novachat' ); ?></strong></label>
                             <select id="gemini_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_model]" class="regular-text">
                                 <option value="gemini-flash-latest" <?php selected( 'gemini-flash-latest', $opts['gemini_model'] ?? 'gemini-flash-latest' ); ?>><?php esc_html_e( 'Gemini Flash (Recommended — Fastest & Free Tier Friendly)', 'novachat' ); ?></option>
-                                <option value="gemini-2.0-flash" <?php selected( 'gemini-2.0-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash (Latest Next-Gen Model)', 'novachat' ); ?></option>
-                                <option value="gemini-1.5-pro" <?php selected( 'gemini-1.5-pro', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 1.5 Pro (Advanced Reasoning)', 'novachat' ); ?></option>
+                                <option value="gemini-2.0-flash" <?php selected( 'gemini-2.0-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash', 'novachat' ); ?></option>
+                                <option value="gemini-2.0-flash-lite" <?php selected( 'gemini-2.0-flash-lite', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash Lite', 'novachat' ); ?></option>
+                                <option value="gemini-2.5-flash" <?php selected( 'gemini-2.5-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.5 Flash', 'novachat' ); ?></option>
+                                <option value="gemini-2.5-pro" <?php selected( 'gemini-2.5-pro', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.5 Pro', 'novachat' ); ?></option>
+                                <option value="gemini-3.5-flash" <?php selected( 'gemini-3.5-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 3.5 Flash (Next-Gen)', 'novachat' ); ?></option>
+                                <option value="gemini-1.5-pro" <?php selected( 'gemini-1.5-pro', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 1.5 Pro (Advanced reasoning)', 'novachat' ); ?></option>
                             </select>
                         </div>
 
@@ -162,8 +166,12 @@ $opts = self::get_options();
                         <div class="novachat-field">
                             <label for="openai_model"><strong><?php esc_html_e( 'OpenAI Model', 'novachat' ); ?></strong></label>
                             <select id="openai_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_model]" class="regular-text">
-                                <option value="gpt-4o-mini" <?php selected( 'gpt-4o-mini', $opts['openai_model'] ?? 'gpt-4o-mini' ); ?>><?php esc_html_e( 'GPT-4o Mini (Fast, Cheap & Extremely Smart)', 'novachat' ); ?></option>
-                                <option value="gpt-4o" <?php selected( 'gpt-4o', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4o (Premium High Reasoning)', 'novachat' ); ?></option>
+                                <option value="gpt-4o-mini" <?php selected( 'gpt-4o-mini', $opts['openai_model'] ?? 'gpt-4o-mini' ); ?>><?php esc_html_e( 'GPT-4o Mini (Recommended — Fast & Low Cost)', 'novachat' ); ?></option>
+                                <option value="gpt-4o" <?php selected( 'gpt-4o', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4o (Premium Multimodal)', 'novachat' ); ?></option>
+                                <option value="o1-mini" <?php selected( 'o1-mini', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'o1-mini (Reasoning Model)', 'novachat' ); ?></option>
+                                <option value="o1-preview" <?php selected( 'o1-preview', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'o1-preview (Reasoning Model)', 'novachat' ); ?></option>
+                                <option value="gpt-4-turbo" <?php selected( 'gpt-4-turbo', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4 Turbo', 'novachat' ); ?></option>
+                                <option value="gpt-3.5-turbo" <?php selected( 'gpt-3.5-turbo', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-3.5 Turbo (Legacy)', 'novachat' ); ?></option>
                             </select>
                         </div>
 
@@ -210,8 +218,10 @@ $opts = self::get_options();
                         <div class="novachat-field">
                             <label for="anthropic_model"><strong><?php esc_html_e( 'Claude Model', 'novachat' ); ?></strong></label>
                             <select id="anthropic_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_model]" class="regular-text">
-                                <option value="claude-3-5-haiku-20241022" <?php selected( 'claude-3-5-haiku-20241022', $opts['anthropic_model'] ?? 'claude-3-5-haiku-20241022' ); ?>><?php esc_html_e( 'Claude 3.5 Haiku (Fast, Cheaper & Exceptionally Competent)', 'novachat' ); ?></option>
-                                <option value="claude-3-5-sonnet-20241022" <?php selected( 'claude-3-5-sonnet-20241022', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3.5 Sonnet (State-of-the-Art Intelligent Reasoning)', 'novachat' ); ?></option>
+                                <option value="claude-3-5-haiku-20241022" <?php selected( 'claude-3-5-haiku-20241022', $opts['anthropic_model'] ?? 'claude-3-5-haiku-20241022' ); ?>><?php esc_html_e( 'Claude 3.5 Haiku (Recommended — Fast & Intelligent)', 'novachat' ); ?></option>
+                                <option value="claude-3-5-sonnet-20241022" <?php selected( 'claude-3-5-sonnet-20241022', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3.5 Sonnet (State-of-the-Art Reasoning)', 'novachat' ); ?></option>
+                                <option value="claude-3-opus-20240229" <?php selected( 'claude-3-opus-20240229', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3 Opus (Premium Creative Reasoning)', 'novachat' ); ?></option>
+                                <option value="claude-3-haiku-20240307" <?php selected( 'claude-3-haiku-20240307', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3 Haiku (Legacy)', 'novachat' ); ?></option>
                             </select>
                         </div>
 
