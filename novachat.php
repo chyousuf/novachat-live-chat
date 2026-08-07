@@ -90,11 +90,20 @@ class NovaChat_Plugin {
             'offline_start'      => 9,
             'offline_end'        => 18,
             'display_rule'       => 'all',
-            // Gemini AI Settings
-            'ai_provider'        => 'gemini', // 'gemini', 'rules', or 'webhook'
+            // AI Provider & API Settings
+            'ai_provider'        => 'gemini', // 'gemini', 'openai', 'anthropic', 'rules', or 'webhook'
+            // Gemini Settings
             'gemini_api_key'     => '',
             'gemini_model'       => 'gemini-flash-latest',
             'gemini_system_prompt' => "You are Nova, a friendly, concise, and helpful customer support AI assistant for our website. Answer questions accurately, keep replies conversational and short (2-4 sentences max), and offer to connect them to human support if needed.",
+            // OpenAI Settings
+            'openai_api_key'     => '',
+            'openai_model'       => 'gpt-4o-mini',
+            'openai_system_prompt' => "You are Nova, a friendly, concise, and helpful customer support AI assistant for our website. Answer questions accurately, keep replies conversational and short (2-4 sentences max), and offer to connect them to human support if needed.",
+            // Anthropic Settings
+            'anthropic_api_key'  => '',
+            'anthropic_model'    => 'claude-3-5-haiku-20241022',
+            'anthropic_system_prompt' => "You are Nova, a friendly, concise, and helpful customer support AI assistant for our website. Answer questions accurately, keep replies conversational and short (2-4 sentences max), and offer to connect them to human support if needed.",
             // Fallback & Rules
             'custom_responses'   => array(
                 array( 'keyword' => 'pricing', 'reply' => 'We have flexible pricing plans for every need. Would you like our team to provide a custom quote?' ),
@@ -188,11 +197,23 @@ class NovaChat_Plugin {
         // Display rules
         $output['display_rule']    = sanitize_text_field( $input['display_rule'] ?? 'all' );
 
-        // AI Provider & Gemini Settings
-        $output['ai_provider']          = in_array( $input['ai_provider'] ?? '', array( 'gemini', 'rules', 'webhook' ), true ) ? $input['ai_provider'] : 'gemini';
+        // AI Provider & API Settings
+        $output['ai_provider']          = in_array( $input['ai_provider'] ?? '', array( 'gemini', 'openai', 'anthropic', 'rules', 'webhook' ), true ) ? $input['ai_provider'] : 'gemini';
+        
+        // Gemini Settings
         $output['gemini_api_key']       = sanitize_text_field( trim( $input['gemini_api_key'] ?? '' ) );
-        $output['gemini_model']         = sanitize_text_field( $input['gemini_model'] ?? 'gemini-1.5-flash' );
+        $output['gemini_model']         = sanitize_text_field( $input['gemini_model'] ?? 'gemini-flash-latest' );
         $output['gemini_system_prompt'] = sanitize_textarea_field( $input['gemini_system_prompt'] ?? $defaults['gemini_system_prompt'] );
+
+        // OpenAI Settings
+        $output['openai_api_key']       = sanitize_text_field( trim( $input['openai_api_key'] ?? '' ) );
+        $output['openai_model']         = sanitize_text_field( $input['openai_model'] ?? 'gpt-4o-mini' );
+        $output['openai_system_prompt'] = sanitize_textarea_field( $input['openai_system_prompt'] ?? $defaults['openai_system_prompt'] );
+
+        // Anthropic Settings
+        $output['anthropic_api_key']       = sanitize_text_field( trim( $input['anthropic_api_key'] ?? '' ) );
+        $output['anthropic_model']         = sanitize_text_field( $input['anthropic_model'] ?? 'claude-3-5-haiku-20241022' );
+        $output['anthropic_system_prompt'] = sanitize_textarea_field( $input['anthropic_system_prompt'] ?? $defaults['anthropic_system_prompt'] );
 
         // Webhook / Fallback
         $output['default_reply']   = sanitize_textarea_field( $input['default_reply'] ?? $defaults['default_reply'] );
@@ -328,6 +349,105 @@ class NovaChat_Plugin {
             }
         }
 
+        // 2. OpenAI Chat Completions
+        if ( 'openai' === $provider && ! empty( $opts['openai_api_key'] ) ) {
+            $api_key = $opts['openai_api_key'];
+            $model   = ! empty( $opts['openai_model'] ) ? $opts['openai_model'] : 'gpt-4o-mini';
+            $system_prompt = ! empty( $opts['openai_system_prompt'] ) ? $opts['openai_system_prompt'] : '';
+
+            $openai_url = 'https://api.openai.com/v1/chat/completions';
+
+            $messages = array();
+            if ( ! empty( $system_prompt ) ) {
+                $messages[] = array(
+                    'role'    => 'system',
+                    'content' => $system_prompt
+                );
+            }
+            $messages[] = array(
+                'role'    => 'user',
+                'content' => $user_message
+            );
+
+            $payload = array(
+                'model'    => $model,
+                'messages' => $messages
+            );
+
+            $response = wp_remote_post( $openai_url, array(
+                'headers' => array(
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $api_key
+                ),
+                'body'    => wp_json_encode( $payload ),
+                'timeout' => 20
+            ) );
+
+            if ( ! is_wp_error( $response ) ) {
+                $status_code = wp_remote_retrieve_response_code( $response );
+                $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+                if ( 200 === $status_code && isset( $body['choices'][0]['message']['content'] ) ) {
+                    $reply_text = trim( $body['choices'][0]['message']['content'] );
+                    return new WP_REST_Response( array(
+                        'reply' => $reply_text,
+                        'source' => 'openai'
+                    ), 200 );
+                } elseif ( isset( $body['error']['message'] ) ) {
+                    error_log( 'NovaChat OpenAI API Error: ' . $body['error']['message'] );
+                }
+            }
+        }
+
+        // 3. Anthropic Messages
+        if ( 'anthropic' === $provider && ! empty( $opts['anthropic_api_key'] ) ) {
+            $api_key = $opts['anthropic_api_key'];
+            $model   = ! empty( $opts['anthropic_model'] ) ? $opts['anthropic_model'] : 'claude-3-5-haiku-20241022';
+            $system_prompt = ! empty( $opts['anthropic_system_prompt'] ) ? $opts['anthropic_system_prompt'] : '';
+
+            $anthropic_url = 'https://api.anthropic.com/v1/messages';
+
+            $payload = array(
+                'model'      => $model,
+                'max_tokens' => 1024,
+                'messages'   => array(
+                    array(
+                        'role'    => 'user',
+                        'content' => $user_message
+                    )
+                )
+            );
+
+            if ( ! empty( $system_prompt ) ) {
+                $payload['system'] = $system_prompt;
+            }
+
+            $response = wp_remote_post( $anthropic_url, array(
+                'headers' => array(
+                    'Content-Type'      => 'application/json',
+                    'x-api-key'         => $api_key,
+                    'anthropic-version' => '2023-06-01'
+                ),
+                'body'    => wp_json_encode( $payload ),
+                'timeout' => 20
+            ) );
+
+            if ( ! is_wp_error( $response ) ) {
+                $status_code = wp_remote_retrieve_response_code( $response );
+                $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+                if ( 200 === $status_code && isset( $body['content'][0]['text'] ) ) {
+                    $reply_text = trim( $body['content'][0]['text'] );
+                    return new WP_REST_Response( array(
+                        'reply' => $reply_text,
+                        'source' => 'anthropic'
+                    ), 200 );
+                } elseif ( isset( $body['error']['message'] ) ) {
+                    error_log( 'NovaChat Anthropic API Error: ' . $body['error']['message'] );
+                }
+            }
+        }
+
         // 2. Fallback to Keyword Auto-Responder rules
         $msg_lower = strtolower( $user_message );
         if ( ! empty( $opts['custom_responses'] ) && is_array( $opts['custom_responses'] ) ) {
@@ -432,7 +552,10 @@ class NovaChat_Plugin {
             'responses'      => (object) $responses_map,
             'defaultReply'   => $opts['default_reply'],
             'aiEndpoint'     => esc_url_raw( rest_url( 'novachat/v1/chat' ) ),
-            'useServerAi'    => ! empty( $opts['gemini_api_key'] ) || ! empty( $opts['backend_api_url'] )
+            'useServerAi'    => ( 'gemini' === $opts['ai_provider'] && ! empty( $opts['gemini_api_key'] ) ) ||
+                                ( 'openai' === $opts['ai_provider'] && ! empty( $opts['openai_api_key'] ) ) ||
+                                ( 'anthropic' === $opts['ai_provider'] && ! empty( $opts['anthropic_api_key'] ) ) ||
+                                ( 'webhook' === $opts['ai_provider'] && ! empty( $opts['backend_api_url'] ) )
         );
 
         if ( ! empty( $opts['backend_api_url'] ) ) {

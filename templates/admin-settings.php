@@ -35,7 +35,7 @@ $opts = self::get_options();
 
         <div class="novachat-admin-tabs">
             <button type="button" class="nav-tab nav-tab-active" data-tab="tab-gemini">
-                <span class="dashicons dashicons-superhero"></span> <?php esc_html_e( 'Google Gemini AI', 'novachat' ); ?>
+                <span class="dashicons dashicons-superhero"></span> <?php esc_html_e( 'AI Configuration', 'novachat' ); ?>
             </button>
             <button type="button" class="nav-tab" data-tab="tab-general">
                 <span class="dashicons dashicons-admin-generic"></span> <?php esc_html_e( 'General & Identity', 'novachat' ); ?>
@@ -58,23 +58,41 @@ $opts = self::get_options();
             <!-- Left Main Settings Column -->
             <div class="novachat-form-col">
 
-                <!-- TAB: GEMINI AI (DEFAULT TAB) -->
+                <!-- TAB: AI CONFIGURATION (DEFAULT TAB) -->
                 <div class="novachat-tab-panel active" id="tab-gemini">
-                    <div class="novachat-card gemini-card">
-                        <div class="card-header-badge">
-                            <span class="badge-pill"><?php esc_html_e( 'AI Powered Support', 'novachat' ); ?></span>
+                    
+                    <!-- AI Provider Selector Card -->
+                    <div class="novachat-card">
+                        <h3><?php esc_html_e( 'Active AI Provider', 'novachat' ); ?></h3>
+                        <p class="description"><?php esc_html_e( 'Choose the AI model provider that will power your live chat responses.', 'novachat' ); ?></p>
+                        
+                        <div class="novachat-field" style="margin-top: 15px;">
+                            <select id="novachat_ai_provider" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[ai_provider]" class="regular-text" style="font-size:14px; padding: 6px 10px; width: 100%; max-width: 400px;">
+                                <option value="gemini" <?php selected( 'gemini', $opts['ai_provider'] ?? 'gemini' ); ?>><?php esc_html_e( 'Google Gemini AI (Recommended)', 'novachat' ); ?></option>
+                                <option value="openai" <?php selected( 'openai', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'OpenAI (ChatGPT)', 'novachat' ); ?></option>
+                                <option value="anthropic" <?php selected( 'anthropic', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Anthropic (Claude)', 'novachat' ); ?></option>
+                                <option value="rules" <?php selected( 'rules', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Keyword Auto-Responder Rules Only', 'novachat' ); ?></option>
+                                <option value="webhook" <?php selected( 'webhook', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Custom Webhook / External API Proxy', 'novachat' ); ?></option>
+                            </select>
                         </div>
-                        <h3><?php esc_html_e( 'Google Gemini AI Integration', 'novachat' ); ?></h3>
+                    </div>
+
+                    <!-- PROVIDER CARD: Google Gemini -->
+                    <div class="novachat-card ai-provider-settings-card" id="settings-card-gemini">
+                        <div class="card-header-badge">
+                            <span class="badge-pill" style="background:#EBF5FF; color:#1E40AF;"><?php esc_html_e( 'Google Gemini AI', 'novachat' ); ?></span>
+                        </div>
+                        <h3><?php esc_html_e( 'Google Gemini Configuration', 'novachat' ); ?></h3>
                         <p class="description" style="font-size: 13.5px; line-height: 1.6;">
-                            <?php esc_html_e( 'Connect Google Gemini to answer customer questions automatically 24/7. Your API key is securely stored on your WordPress server and never exposed to website visitors.', 'novachat' ); ?>
+                            <?php esc_html_e( 'Answer customer questions automatically 24/7 using Google\'s efficient Gemini model. Your API key is safely stored on your server.', 'novachat' ); ?>
                         </p>
 
-                        <div class="gemini-info-box">
-                            <div class="gemini-info-icon">🔑</div>
+                        <div class="gemini-info-box" style="background:#F3F4F6; padding:12px; border-radius:6px; margin: 15px 0; display:flex; align-items:center; gap:10px;">
+                            <div class="gemini-info-icon" style="font-size:20px;">🔑</div>
                             <div class="gemini-info-text">
                                 <strong><?php esc_html_e( 'Where to find your Gemini API Key?', 'novachat' ); ?></strong>
-                                <p style="margin: 4px 0 0 0;">
-                                    <?php esc_html_e( 'Get your free key in 1 click from Google AI Studio: ', 'novachat' ); ?>
+                                <p style="margin: 2px 0 0 0; font-size:12px;">
+                                    <?php esc_html_e( 'Get your key for free from Google AI Studio: ', 'novachat' ); ?>
                                     <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: #5B4FE9; font-weight: 600; text-decoration: underline;">
                                         https://aistudio.google.com/app/apikey ↗
                                     </a>
@@ -82,15 +100,14 @@ $opts = self::get_options();
                             </div>
                         </div>
 
-                        <div class="novachat-field" style="margin-top: 20px;">
+                        <div class="novachat-field">
                             <label for="gemini_api_key"><strong><?php esc_html_e( 'Google Gemini API Key', 'novachat' ); ?></strong></label>
-                            <div class="key-input-wrapper">
+                            <div class="key-input-wrapper" style="display:flex; gap:6px;">
                                 <input type="password" id="gemini_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_api_key]" value="<?php echo esc_attr( $opts['gemini_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="AIzaSy..." autocomplete="off" />
-                                <button type="button" class="button button-secondary" id="toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'novachat' ); ?>">
+                                <button type="button" class="button button-secondary toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'novachat' ); ?>">
                                     <span class="dashicons dashicons-visibility"></span>
                                 </button>
                             </div>
-                            <p class="description"><?php esc_html_e( 'Paste your Google Gemini API key here. If left blank, the widget uses the fast keyword auto-responder.', 'novachat' ); ?></p>
                         </div>
 
                         <div class="novachat-field">
@@ -103,11 +120,136 @@ $opts = self::get_options();
                         </div>
 
                         <div class="novachat-field">
-                            <label for="gemini_system_prompt"><strong><?php esc_html_e( 'AI Personality & Instructions (System Prompt)', 'novachat' ); ?></strong></label>
-                            <textarea id="gemini_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot for our website..."><?php echo esc_textarea( $opts['gemini_system_prompt'] ?? '' ); ?></textarea>
-                            <p class="description"><?php esc_html_e( 'Give the AI instructions about your business, products, services, tone of voice, or return policies.', 'novachat' ); ?></p>
+                            <label for="gemini_system_prompt"><strong><?php esc_html_e( 'Gemini AI System Instructions (System Prompt)', 'novachat' ); ?></strong></label>
+                            <textarea id="gemini_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $opts['gemini_system_prompt'] ?? '' ); ?></textarea>
+                            <p class="description"><?php esc_html_e( 'Define the personality, tone, and specific knowledge limits of the bot.', 'novachat' ); ?></p>
                         </div>
                     </div>
+
+                    <!-- PROVIDER CARD: OpenAI -->
+                    <div class="novachat-card ai-provider-settings-card" id="settings-card-openai">
+                        <div class="card-header-badge">
+                            <span class="badge-pill" style="background:#ECFDF5; color:#047857;"><?php esc_html_e( 'OpenAI ChatGPT', 'novachat' ); ?></span>
+                        </div>
+                        <h3><?php esc_html_e( 'OpenAI Configuration', 'novachat' ); ?></h3>
+                        <p class="description" style="font-size: 13.5px; line-height: 1.6;">
+                            <?php esc_html_e( 'Power your live chat using OpenAI\'s powerful GPT models (e.g. GPT-4o-mini). Requires a paid OpenAI developer account.', 'novachat' ); ?>
+                        </p>
+
+                        <div class="gemini-info-box" style="background:#F3F4F6; padding:12px; border-radius:6px; margin: 15px 0; display:flex; align-items:center; gap:10px;">
+                            <div class="gemini-info-icon" style="font-size:20px;">🔑</div>
+                            <div class="gemini-info-text">
+                                <strong><?php esc_html_e( 'Where to find your OpenAI API Key?', 'novachat' ); ?></strong>
+                                <p style="margin: 2px 0 0 0; font-size:12px;">
+                                    <?php esc_html_e( 'Get your key from your OpenAI Developer Dashboard: ', 'novachat' ); ?>
+                                    <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" style="color: #5B4FE9; font-weight: 600; text-decoration: underline;">
+                                        https://platform.openai.com/api-keys ↗
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="novachat-field">
+                            <label for="openai_api_key"><strong><?php esc_html_e( 'OpenAI API Key', 'novachat' ); ?></strong></label>
+                            <div class="key-input-wrapper" style="display:flex; gap:6px;">
+                                <input type="password" id="openai_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_api_key]" value="<?php echo esc_attr( $opts['openai_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="sk-proj-..." autocomplete="off" />
+                                <button type="button" class="button button-secondary toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'novachat' ); ?>">
+                                    <span class="dashicons dashicons-visibility"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="novachat-field">
+                            <label for="openai_model"><strong><?php esc_html_e( 'OpenAI Model', 'novachat' ); ?></strong></label>
+                            <select id="openai_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_model]" class="regular-text">
+                                <option value="gpt-4o-mini" <?php selected( 'gpt-4o-mini', $opts['openai_model'] ?? 'gpt-4o-mini' ); ?>><?php esc_html_e( 'GPT-4o Mini (Fast, Cheap & Extremely Smart)', 'novachat' ); ?></option>
+                                <option value="gpt-4o" <?php selected( 'gpt-4o', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4o (Premium High Reasoning)', 'novachat' ); ?></option>
+                            </select>
+                        </div>
+
+                        <div class="novachat-field">
+                            <label for="openai_system_prompt"><strong><?php esc_html_e( 'OpenAI System Instructions (System Prompt)', 'novachat' ); ?></strong></label>
+                            <textarea id="openai_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $opts['openai_system_prompt'] ?? '' ); ?></textarea>
+                            <p class="description"><?php esc_html_e( 'Define the personality, tone, and specific knowledge limits of the bot.', 'novachat' ); ?></p>
+                        </div>
+                    </div>
+
+                    <!-- PROVIDER CARD: Anthropic -->
+                    <div class="novachat-card ai-provider-settings-card" id="settings-card-anthropic">
+                        <div class="card-header-badge">
+                            <span class="badge-pill" style="background:#FFF7ED; color:#C2410C;"><?php esc_html_e( 'Anthropic Claude', 'novachat' ); ?></span>
+                        </div>
+                        <h3><?php esc_html_e( 'Anthropic Claude Configuration', 'novachat' ); ?></h3>
+                        <p class="description" style="font-size: 13.5px; line-height: 1.6;">
+                            <?php esc_html_e( 'Power your live chat using Anthropic\'s high-quality Claude models (e.g. Claude 3.5 Haiku). Requires a paid Anthropic Console account.', 'novachat' ); ?>
+                        </p>
+
+                        <div class="gemini-info-box" style="background:#F3F4F6; padding:12px; border-radius:6px; margin: 15px 0; display:flex; align-items:center; gap:10px;">
+                            <div class="gemini-info-icon" style="font-size:20px;">🔑</div>
+                            <div class="gemini-info-text">
+                                <strong><?php esc_html_e( 'Where to find your Anthropic API Key?', 'novachat' ); ?></strong>
+                                <p style="margin: 2px 0 0 0; font-size:12px;">
+                                    <?php esc_html_e( 'Get your key from your Anthropic Console Dashboard: ', 'novachat' ); ?>
+                                    <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" style="color: #5B4FE9; font-weight: 600; text-decoration: underline;">
+                                        https://console.anthropic.com/settings/keys ↗
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="novachat-field">
+                            <label for="anthropic_api_key"><strong><?php esc_html_e( 'Anthropic API Key', 'novachat' ); ?></strong></label>
+                            <div class="key-input-wrapper" style="display:flex; gap:6px;">
+                                <input type="password" id="anthropic_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_api_key]" value="<?php echo esc_attr( $opts['anthropic_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="sk-ant-..." autocomplete="off" />
+                                <button type="button" class="button button-secondary toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'novachat' ); ?>">
+                                    <span class="dashicons dashicons-visibility"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="novachat-field">
+                            <label for="anthropic_model"><strong><?php esc_html_e( 'Claude Model', 'novachat' ); ?></strong></label>
+                            <select id="anthropic_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_model]" class="regular-text">
+                                <option value="claude-3-5-haiku-20241022" <?php selected( 'claude-3-5-haiku-20241022', $opts['anthropic_model'] ?? 'claude-3-5-haiku-20241022' ); ?>><?php esc_html_e( 'Claude 3.5 Haiku (Fast, Cheaper & Exceptionally Competent)', 'novachat' ); ?></option>
+                                <option value="claude-3-5-sonnet-20241022" <?php selected( 'claude-3-5-sonnet-20241022', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3.5 Sonnet (State-of-the-Art Intelligent Reasoning)', 'novachat' ); ?></option>
+                            </select>
+                        </div>
+
+                        <div class="novachat-field">
+                            <label for="anthropic_system_prompt"><strong><?php esc_html_e( 'Claude System Instructions (System Prompt)', 'novachat' ); ?></strong></label>
+                            <textarea id="anthropic_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $opts['anthropic_system_prompt'] ?? '' ); ?></textarea>
+                            <p class="description"><?php esc_html_e( 'Define the personality, tone, and specific knowledge limits of the bot.', 'novachat' ); ?></p>
+                        </div>
+                    </div>
+
+                    <!-- PROVIDER CARD: Keyword Rules Info -->
+                    <div class="novachat-card ai-provider-settings-card" id="settings-card-rules">
+                        <h3><?php esc_html_e( 'Keyword Auto-Responder Rules Active', 'novachat' ); ?></h3>
+                        <p class="description">
+                            <?php esc_html_e( 'You have selected "Keyword Auto-Responder Rules Only". The widget will bypass AI generation and respond instantly using your custom keywords.', 'novachat' ); ?>
+                        </p>
+                        <p style="margin-top:15px; font-weight:600;">
+                            <?php esc_html_e( 'Configure your triggers and replies in the ', 'novachat' ); ?>
+                            <a href="#" class="novachat-go-to-tab" data-target-tab="tab-responses" style="color:#5B4FE9; text-decoration:underline;">
+                                <?php esc_html_e( 'Auto-Responses Tab', 'novachat' ); ?>
+                            </a>
+                        </p>
+                    </div>
+
+                    <!-- PROVIDER CARD: Webhook Info -->
+                    <div class="novachat-card ai-provider-settings-card" id="settings-card-webhook">
+                        <h3><?php esc_html_e( 'Custom Webhook Active', 'novachat' ); ?></h3>
+                        <p class="description">
+                            <?php esc_html_e( 'You have selected "Custom Webhook / External API Proxy". Messages will be forwarded directly to your custom backend service URL.', 'novachat' ); ?>
+                        </p>
+                        <p style="margin-top:15px; font-weight:600;">
+                            <?php esc_html_e( 'Configure your backend webhook settings in the ', 'novachat' ); ?>
+                            <a href="#" class="novachat-go-to-tab" data-target-tab="tab-integration" style="color:#5B4FE9; text-decoration:underline;">
+                                <?php esc_html_e( 'Custom Webhooks Tab', 'novachat' ); ?>
+                            </a>
+                        </p>
+                    </div>
+
                 </div>
 
                 <!-- TAB: GENERAL -->

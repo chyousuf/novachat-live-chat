@@ -17,10 +17,10 @@
             $("#" + targetTab).addClass("active");
         });
 
-        // 2. Toggle API Key Visibility
-        $("#toggle-key-visibility").on("click", function (e) {
+        // 2. Toggle API Key Visibility (for any provider key)
+        $(".toggle-key-visibility").on("click", function (e) {
             e.preventDefault();
-            var $input = $("#gemini_api_key");
+            var $input = $(this).closest(".key-input-wrapper").find("input");
             var currentType = $input.attr("type");
             if (currentType === "password") {
                 $input.attr("type", "text");
@@ -29,6 +29,26 @@
                 $input.attr("type", "password");
                 $(this).find(".dashicons").removeClass("dashicons-hidden").addClass("dashicons-visibility");
             }
+        });
+
+        // 2b. AI Provider Card Show/Hide
+        function toggleActiveProviderSettings() {
+            var selectedProvider = $("#novachat_ai_provider").val() || "gemini";
+            $(".ai-provider-settings-card").hide();
+            $("#settings-card-" + selectedProvider).show();
+        }
+
+        $("#novachat_ai_provider").on("change", function () {
+            toggleActiveProviderSettings();
+        });
+
+        toggleActiveProviderSettings();
+
+        // 2c. Navigation links inside tabs
+        $(document).on("click", ".novachat-go-to-tab", function(e) {
+            e.preventDefault();
+            var targetTab = $(this).data("target-tab");
+            $('.novachat-admin-tabs .nav-tab[data-tab="' + targetTab + '"]').trigger("click");
         });
 
         // 3. Color Pickers
