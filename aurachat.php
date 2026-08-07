@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name:       NovaChat — Live Chat Widget
- * Plugin URI:        https://github.com/novachat/novachat-wp
+ * Plugin Name:       AuraChat — Live Chat Widget
+ * Plugin URI:        https://github.com/aurachat/aurachat-wp
  * Description:       Lightweight live chat widget with Google Gemini AI integration, bot branding, quick replies, keyword auto-responder, operating hours, and sound effects.
  * Version:           1.1.0
  * Author:            chaudhryyousuf33
  * Author URI:        https://github.com/chyousuf
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       novachat
+ * Text Domain:       aurachat-live-chat-widget
  * Domain Path:       /languages
  */
 
@@ -17,15 +17,15 @@ if ( ! defined( 'WPINC' ) && ! defined( 'ABSPATH' ) ) {
     die;
 }
 
-define( 'NOVACHAT_VERSION', '1.1.0' );
-define( 'NOVACHAT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'NOVACHAT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'NOVACHAT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'AURACHAT_VERSION', '1.1.0' );
+define( 'AURACHAT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'AURACHAT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'AURACHAT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
- * Main NovaChat Plugin Class
+ * Main AuraChat Plugin Class
  */
-class NovaChat_Plugin {
+class AuraChat_Plugin {
 
     /**
      * Singleton instance
@@ -35,7 +35,7 @@ class NovaChat_Plugin {
     /**
      * Option key name in wp_options
      */
-    const OPTION_KEY = 'novachat_settings';
+    const OPTION_KEY = 'aurachat_settings';
 
     /**
      * Get single instance
@@ -56,7 +56,7 @@ class NovaChat_Plugin {
             add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
             add_action( 'admin_init', array( $this, 'register_settings' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
-            add_filter( 'plugin_action_links_' . NOVACHAT_PLUGIN_BASENAME, array( $this, 'add_action_links' ) );
+            add_filter( 'plugin_action_links_' . AURACHAT_PLUGIN_BASENAME, array( $this, 'add_action_links' ) );
         }
 
         // Frontend hooks
@@ -84,7 +84,7 @@ class NovaChat_Plugin {
             'show_timestamps'    => 1,
             'persist_history'    => 1,
             'sound_enabled'      => 1,
-            'storage_key'        => 'novachat_history_v1',
+            'storage_key'        => 'aurachat_history_v1',
             'quick_replies'      => "What services do you offer?\nPricing details\nTalk to a human",
             'offline_mode'       => 'always_online',
             'offline_start'      => 9,
@@ -129,7 +129,7 @@ class NovaChat_Plugin {
      * Add settings link to Plugins page
      */
     public function add_action_links( $links ) {
-        $settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=novachat-settings' ) ) . '">' . __( 'Settings', 'novachat' ) . '</a>';
+        $settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=aurachat-settings' ) ) . '">' . __( 'Settings', 'aurachat-live-chat-widget' ) . '</a>';
         array_unshift( $links, $settings_link );
         return $links;
     }
@@ -139,10 +139,10 @@ class NovaChat_Plugin {
      */
     public function register_admin_menu() {
         add_options_page(
-            __( 'NovaChat Settings', 'novachat' ),
-            __( 'NovaChat Widget', 'novachat' ),
+            __( 'AuraChat Settings', 'aurachat-live-chat-widget' ),
+            __( 'AuraChat Widget', 'aurachat-live-chat-widget' ),
             'manage_options',
-            'novachat-settings',
+            'aurachat-settings',
             array( $this, 'render_admin_page' )
         );
     }
@@ -152,7 +152,7 @@ class NovaChat_Plugin {
      */
     public function register_settings() {
         register_setting(
-            'novachat_options_group',
+            'aurachat_options_group',
             self::OPTION_KEY,
             array( $this, 'sanitize_options' )
         );
@@ -246,7 +246,7 @@ class NovaChat_Plugin {
      * Enqueue Admin scripts and styles
      */
     public function enqueue_admin_assets( $hook ) {
-        if ( 'settings_page_novachat-settings' !== $hook ) {
+        if ( 'settings_page_aurachat-settings' !== $hook ) {
             return;
         }
 
@@ -254,17 +254,17 @@ class NovaChat_Plugin {
         wp_enqueue_script( 'wp-color-picker' );
 
         wp_enqueue_style(
-            'novachat-admin-style',
-            NOVACHAT_PLUGIN_URL . 'assets/css/admin-style.css',
+            'aurachat-admin-style',
+            AURACHAT_PLUGIN_URL . 'assets/css/admin-style.css',
             array(),
-            NOVACHAT_VERSION
+            AURACHAT_VERSION
         );
 
         wp_enqueue_script(
-            'novachat-admin-script',
-            NOVACHAT_PLUGIN_URL . 'assets/js/admin-script.js',
+            'aurachat-admin-script',
+            AURACHAT_PLUGIN_URL . 'assets/js/admin-script.js',
             array( 'jquery', 'wp-color-picker' ),
-            NOVACHAT_VERSION,
+            AURACHAT_VERSION,
             true
         );
     }
@@ -273,7 +273,7 @@ class NovaChat_Plugin {
      * Register REST API routes for Chat / Gemini
      */
     public function register_rest_routes() {
-        register_rest_route( 'novachat/v1', '/chat', array(
+        register_rest_route( 'aurachat/v1', '/chat', array(
             'methods'             => 'POST',
             'callback'            => array( $this, 'handle_chat_request' ),
             'permission_callback' => '__return_true', // Public visitors can chat
@@ -344,7 +344,7 @@ class NovaChat_Plugin {
                         'source' => 'gemini'
                     ), 200 );
                 } elseif ( isset( $body['error']['message'] ) ) {
-                    error_log( 'NovaChat Gemini API Error: ' . $body['error']['message'] );
+                    error_log( 'AuraChat Gemini API Error: ' . $body['error']['message'] );
                 }
             }
         }
@@ -394,7 +394,7 @@ class NovaChat_Plugin {
                         'source' => 'openai'
                     ), 200 );
                 } elseif ( isset( $body['error']['message'] ) ) {
-                    error_log( 'NovaChat OpenAI API Error: ' . $body['error']['message'] );
+                    error_log( 'AuraChat OpenAI API Error: ' . $body['error']['message'] );
                 }
             }
         }
@@ -443,7 +443,7 @@ class NovaChat_Plugin {
                         'source' => 'anthropic'
                     ), 200 );
                 } elseif ( isset( $body['error']['message'] ) ) {
-                    error_log( 'NovaChat Anthropic API Error: ' . $body['error']['message'] );
+                    error_log( 'AuraChat Anthropic API Error: ' . $body['error']['message'] );
                 }
             }
         }
@@ -477,7 +477,7 @@ class NovaChat_Plugin {
             return;
         }
         $opts = self::get_options();
-        require_once NOVACHAT_PLUGIN_DIR . 'templates/admin-settings.php';
+        require_once AURACHAT_PLUGIN_DIR . 'templates/admin-settings.php';
     }
 
     /**
@@ -551,7 +551,7 @@ class NovaChat_Plugin {
             'offlineHours'   => $offline_hours,
             'responses'      => (object) $responses_map,
             'defaultReply'   => $opts['default_reply'],
-            'aiEndpoint'     => esc_url_raw( rest_url( 'novachat/v1/chat' ) ),
+            'aiEndpoint'     => esc_url_raw( rest_url( 'aurachat/v1/chat' ) ),
             'useServerAi'    => ( 'gemini' === $opts['ai_provider'] && ! empty( $opts['gemini_api_key'] ) ) ||
                                 ( 'openai' === $opts['ai_provider'] && ! empty( $opts['openai_api_key'] ) ) ||
                                 ( 'anthropic' === $opts['ai_provider'] && ! empty( $opts['anthropic_api_key'] ) ) ||
@@ -564,23 +564,23 @@ class NovaChat_Plugin {
 
         // Enqueue widget script
         wp_enqueue_script(
-            'novachat-widget',
-            NOVACHAT_PLUGIN_URL . 'assets/js/chat-widget.js',
+            'aurachat-widget',
+            AURACHAT_PLUGIN_URL . 'assets/js/chat-widget.js',
             array(),
-            NOVACHAT_VERSION,
+            AURACHAT_VERSION,
             true
         );
 
         // Inject configuration object
-        $inline_script = 'window.NovaChatConfig = ' . wp_json_encode( $js_config ) . ';';
-        wp_add_inline_script( 'novachat-widget', $inline_script, 'before' );
+        $inline_script = 'window.AuraChatConfig = ' . wp_json_encode( $js_config ) . ';';
+        wp_add_inline_script( 'aurachat-widget', $inline_script, 'before' );
     }
 }
 
 /**
- * Initialize NovaChat plugin
+ * Initialize AuraChat plugin
  */
-function novachat_init() {
-    return NovaChat_Plugin::get_instance();
+function aurachat_init() {
+    return AuraChat_Plugin::get_instance();
 }
-add_action( 'plugins_loaded', 'novachat_init' );
+add_action( 'plugins_loaded', 'aurachat_init' );

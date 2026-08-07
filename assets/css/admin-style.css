@@ -1,14 +1,14 @@
 /**
- * NovaChat Admin Dashboard Styles
+ * AuraChat Admin Dashboard Styles
  */
 
-.novachat-admin-wrap {
+.aurachat-admin-wrap {
     max-width: 1240px;
     margin: 20px 20px 40px 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.novachat-header {
+.aurachat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,7 +20,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 
-.novachat-brand-badge {
+.aurachat-brand-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -34,27 +34,27 @@
     margin-bottom: 6px;
 }
 
-.novachat-icon-dot {
+.aurachat-icon-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: #3DDC84;
 }
 
-.novachat-header h1 {
+.aurachat-header h1 {
     margin: 0 0 6px 0;
     font-size: 22px;
     font-weight: 700;
     color: #1e1e1e;
 }
 
-.novachat-tagline {
+.aurachat-tagline {
     margin: 0;
     color: #646970;
     font-size: 13.5px;
 }
 
-.novachat-status-badge {
+.aurachat-status-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -64,19 +64,19 @@
     font-size: 13px;
 }
 
-.novachat-status-badge.status-active {
+.aurachat-status-badge.status-active {
     background: #e6f9ed;
     color: #107c41;
     border: 1px solid #b7ebd0;
 }
 
-.novachat-status-badge.status-inactive {
+.aurachat-status-badge.status-inactive {
     background: #f8f9fa;
     color: #8c8f94;
     border: 1px solid #dcdcde;
 }
 
-.novachat-status-badge .status-indicator {
+.aurachat-status-badge .status-indicator {
     width: 9px;
     height: 9px;
     border-radius: 50%;
@@ -84,7 +84,7 @@
 }
 
 /* Tabs */
-.novachat-admin-tabs {
+.aurachat-admin-tabs {
     display: flex;
     gap: 6px;
     border-bottom: 1px solid #dcdcde;
@@ -92,7 +92,7 @@
     padding: 0;
 }
 
-.novachat-admin-tabs .nav-tab {
+.aurachat-admin-tabs .nav-tab {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -109,12 +109,12 @@
     margin: 0;
 }
 
-.novachat-admin-tabs .nav-tab:hover {
+.aurachat-admin-tabs .nav-tab:hover {
     color: #5B4FE9;
     background: #fdfdfd;
 }
 
-.novachat-admin-tabs .nav-tab.nav-tab-active {
+.aurachat-admin-tabs .nav-tab.nav-tab-active {
     color: #5B4FE9;
     background: #ffffff;
     border-top: 3px solid #5B4FE9;
@@ -123,7 +123,7 @@
 }
 
 /* Layout Grid */
-.novachat-layout-grid {
+.aurachat-layout-grid {
     display: grid;
     grid-template-columns: 1fr 380px;
     gap: 24px;
@@ -131,21 +131,21 @@
 }
 
 @media (max-width: 960px) {
-    .novachat-layout-grid {
+    .aurachat-layout-grid {
         grid-template-columns: 1fr;
     }
 }
 
-.novachat-tab-panel {
+.aurachat-tab-panel {
     display: none;
 }
 
-.novachat-tab-panel.active {
+.aurachat-tab-panel.active {
     display: block;
 }
 
 /* Cards */
-.novachat-card {
+.aurachat-card {
     background: #ffffff;
     border-radius: 12px;
     border: 1px solid #e2e4e7;
@@ -209,7 +209,7 @@
     font-size: 13px;
 }
 
-.novachat-card h3 {
+.aurachat-card h3 {
     margin-top: 0;
     margin-bottom: 14px;
     font-size: 16px;
@@ -228,27 +228,27 @@
     margin-bottom: 4px;
 }
 
-.novachat-field {
+.aurachat-field {
     margin-bottom: 18px;
 }
 
-.novachat-field:last-child {
+.aurachat-field:last-child {
     margin-bottom: 0;
 }
 
-.novachat-field label {
+.aurachat-field label {
     display: block;
     margin-bottom: 6px;
     font-size: 13.5px;
     color: #2c3338;
 }
 
-.novachat-field input[type="text"],
-.novachat-field input[type="password"],
-.novachat-field input[type="url"],
-.novachat-field input[type="number"],
-.novachat-field textarea,
-.novachat-field select {
+.aurachat-field input[type="text"],
+.aurachat-field input[type="password"],
+.aurachat-field input[type="url"],
+.aurachat-field input[type="number"],
+.aurachat-field textarea,
+.aurachat-field select {
     border-radius: 6px;
     border: 1px solid #8c8f94;
     padding: 8px 12px;
@@ -256,27 +256,27 @@
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.novachat-field input:focus,
-.novachat-field textarea:focus,
-.novachat-field select:focus {
+.aurachat-field input:focus,
+.aurachat-field textarea:focus,
+.aurachat-field select:focus {
     border-color: #5B4FE9;
     box-shadow: 0 0 0 1px #5B4FE9;
     outline: none;
 }
 
-.novachat-grid-2 {
+.aurachat-grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
 
 @media (max-width: 600px) {
-    .novachat-grid-2 {
+    .aurachat-grid-2 {
         grid-template-columns: 1fr;
     }
 }
 
-.novachat-divider {
+.aurachat-divider {
     border: 0;
     border-top: 1px solid #f0f0f1;
     margin: 20px 0;
@@ -330,14 +330,14 @@
 }
 
 /* Radio Cards */
-.novachat-radio-cards {
+.aurachat-radio-cards {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin-top: 8px;
 }
 
-.novachat-radio-cards .radio-card {
+.aurachat-radio-cards .radio-card {
     border: 2px solid #e2e4e7;
     border-radius: 10px;
     padding: 14px 16px;
@@ -348,12 +348,12 @@
     gap: 10px;
 }
 
-.novachat-radio-cards .radio-card input {
+.aurachat-radio-cards .radio-card input {
     margin-top: 3px;
 }
 
-.novachat-radio-cards .radio-card.selected,
-.novachat-radio-cards .radio-card:hover {
+.aurachat-radio-cards .radio-card.selected,
+.aurachat-radio-cards .radio-card:hover {
     border-color: #5B4FE9;
     background: #fbfaff;
 }
@@ -371,7 +371,7 @@
 }
 
 /* Checkbox group */
-.novachat-checkbox-group label {
+.aurachat-checkbox-group label {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -380,7 +380,7 @@
 }
 
 /* Rules table */
-.novachat-rules-table {
+.aurachat-rules-table {
     border: 1px solid #e2e4e7;
     border-radius: 8px;
     overflow: hidden;
@@ -417,7 +417,7 @@
     width: 100%;
 }
 
-.rule-row .novachat-remove-row {
+.rule-row .aurachat-remove-row {
     color: #d63638;
     cursor: pointer;
     padding: 4px;
@@ -425,12 +425,12 @@
     background: transparent;
 }
 
-.rule-row .novachat-remove-row:hover {
+.rule-row .aurachat-remove-row:hover {
     color: #b32d2e;
 }
 
 /* Hours box */
-.novachat-hours-box {
+.aurachat-hours-box {
     background: #f6f7f7;
     padding: 16px;
     border-radius: 8px;
@@ -445,13 +445,13 @@
 }
 
 /* Submit bar */
-.novachat-submit-bar {
+.aurachat-submit-bar {
     margin-top: 24px;
     padding: 16px 0;
 }
 
 /* Preview Column */
-.novachat-preview-card {
+.aurachat-preview-card {
     background: #ffffff;
     border: 1px solid #e2e4e7;
     border-radius: 12px;

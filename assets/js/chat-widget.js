@@ -1,5 +1,5 @@
 /*!
- * NovaChat — Embeddable Website Chat Widget
+ * AuraChat — Embeddable Website Chat Widget
  * -------------------------------------------------------------
  * Drop-in, dependency-free chat plugin for WordPress with Google Gemini AI.
  * -------------------------------------------------------------
@@ -7,10 +7,10 @@
 (function () {
   "use strict";
 
-  if (window.__novaChatInitialized) return;
-  window.__novaChatInitialized = true;
+  if (window.__auraChatInitialized) return;
+  window.__auraChatInitialized = true;
 
-  var userConfig = window.NovaChatConfig || {};
+  var userConfig = window.AuraChatConfig || {};
 
   var CFG = Object.assign(
     {
@@ -27,7 +27,7 @@
       showTimestamps: true,
       persistHistory: true,
       soundEnabled: true,
-      storageKey: "novachat_history_v1",
+      storageKey: "aurachat_history_v1",
       offlineHours: null,
       aiEndpoint: "",
       useServerAi: false,
@@ -47,10 +47,10 @@
   var isRight = CFG.position !== "left";
 
   var css =
-    "#novachat-root{--nc-primary:" + CFG.primaryColor + ";--nc-ink:" + CFG.accentColor + ";" +
+    "#aurachat-root{--nc-primary:" + CFG.primaryColor + ";--nc-ink:" + CFG.accentColor + ";" +
     "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;" +
     "position:fixed;bottom:20px;" + (isRight ? "right" : "left") + ":20px;z-index:999999;}" +
-    "#novachat-root *{box-sizing:border-box;}" +
+    "#aurachat-root *{box-sizing:border-box;}" +
     "#nc-launcher{width:60px;height:60px;border-radius:50%;background:var(--nc-primary);" +
     "box-shadow:0 8px 24px rgba(0,0,0,.2);border:none;cursor:pointer;display:flex;" +
     "align-items:center;justify-content:center;transition:transform .18s ease, box-shadow .18s ease;" +
@@ -58,8 +58,8 @@
     "#nc-launcher:hover{transform:scale(1.06);box-shadow:0 10px 28px rgba(0,0,0,.28);}" +
     "#nc-launcher svg{width:26px;height:26px;transition:opacity .15s ease, transform .15s ease;}" +
     "#nc-launcher .nc-icon-close{position:absolute;opacity:0;transform:rotate(-45deg) scale(.5);}" +
-    "#novachat-root.nc-open #nc-launcher .nc-icon-chat{opacity:0;transform:rotate(45deg) scale(.5);}" +
-    "#novachat-root.nc-open #nc-launcher .nc-icon-close{opacity:1;transform:rotate(0) scale(1);}" +
+    "#aurachat-root.nc-open #nc-launcher .nc-icon-chat{opacity:0;transform:rotate(45deg) scale(.5);}" +
+    "#aurachat-root.nc-open #nc-launcher .nc-icon-close{opacity:1;transform:rotate(0) scale(1);}" +
     "#nc-badge{position:absolute;top:-4px;" + (isRight ? "right" : "left") + ":-4px;background:#FF4757;" +
     "color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;" +
     "display:flex;align-items:center;justify-content:center;padding:0 5px;box-shadow:0 0 0 2px #fff;}" +
@@ -69,7 +69,7 @@
     "border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;" +
     "overflow:hidden;opacity:0;transform:translateY(16px) scale(.98);pointer-events:none;" +
     "transition:opacity .2s ease, transform .2s ease;border:1px solid rgba(0,0,0,0.06);}" +
-    "#novachat-root.nc-open #nc-panel{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}" +
+    "#aurachat-root.nc-open #nc-panel{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}" +
     "#nc-header{background:var(--nc-ink);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}" +
     "#nc-avatar{width:36px;height:36px;border-radius:50%;background:var(--nc-primary);display:flex;" +
     "align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0;color:#fff;}" +
@@ -112,16 +112,16 @@
     "#nc-footer{text-align:center;font-size:10.5px;color:#B7BBC7;padding:6px 0 10px;flex-shrink:0;background:#fff;}" +
     "@media (max-width:480px){#nc-panel{position:fixed;inset:0;width:100vw;max-width:100vw;height:100vh;" +
     "max-height:100vh;border-radius:0;bottom:0;right:0;left:0;}" +
-    "#novachat-root{bottom:16px;" + (isRight ? "right" : "left") + ":16px;}}" +
+    "#aurachat-root{bottom:16px;" + (isRight ? "right" : "left") + ":16px;}}" +
     "@media (prefers-reduced-motion:reduce){#nc-launcher,#nc-panel,#nc-launcher svg,.nc-typing span{transition:none;animation:none;}}";
 
   var styleTag = document.createElement("style");
-  styleTag.id = "novachat-styles";
+  styleTag.id = "aurachat-styles";
   styleTag.textContent = css;
   document.head.appendChild(styleTag);
 
   var root = document.createElement("div");
-  root.id = "novachat-root";
+  root.id = "aurachat-root";
   root.innerHTML =
     '<div id="nc-panel" role="dialog" aria-label="' + escapeAttr(CFG.botName) + ' chat window" aria-hidden="true">' +
       '<div id="nc-header">' +
@@ -139,7 +139,7 @@
         '<textarea id="nc-input" rows="1" placeholder="' + escapeAttr(CFG.placeholder) + '" aria-label="Message"></textarea>' +
         '<button id="nc-send" aria-label="Send message" disabled>' + sendIcon() + "</button>" +
       "</div>" +
-      '<div id="nc-footer">Powered by NovaChat & Gemini AI</div>' +
+      '<div id="nc-footer">Powered by AuraChat & Gemini AI</div>' +
     "</div>" +
     '<button id="nc-launcher" aria-label="' + escapeAttr(CFG.launcherLabel) + '" aria-expanded="false">' +
       '<span id="nc-badge" class="nc-hidden">0</span>' +
@@ -459,7 +459,7 @@
     boot();
   }
 
-  window.NovaChat = {
+  window.AuraChat = {
     open: openPanel,
     close: closePanel,
     toggle: togglePanel,

@@ -1,4 +1,4 @@
-=== NovaChat — Live Chat Widget ===
+=== AuraChat — Live Chat Widget ===
 Contributors: chaudhryyousuf33
 Tags: live chat, chatbot, chat widget, customer support, ai assistant, gemini, openai, claude
 Requires at least: 5.4
@@ -12,7 +12,7 @@ Lightweight, dependency-free live chat widget with customizable bot branding, Go
 
 == Description ==
 
-**NovaChat** is a sleek, ultra-lightweight website live chat widget built specifically for WordPress. It features powerful, direct integrations with the industry's leading AI engines: **Google Gemini**, **OpenAI ChatGPT**, and **Anthropic Claude**. It requires zero heavy third-party dependencies, loads instantly, and provides visitors with an engaging and responsive chat experience.
+**AuraChat** is a sleek, ultra-lightweight website live chat widget built specifically for WordPress. It features powerful, direct integrations with the industry's leading AI engines: **Google Gemini**, **OpenAI ChatGPT**, and **Anthropic Claude**. It requires zero heavy third-party dependencies, loads instantly, and provides visitors with an engaging and responsive chat experience.
 
 ### ✨ Key Features
 
@@ -33,12 +33,12 @@ Lightweight, dependency-free live chat widget with customizable bot branding, Go
 2. Go to **Plugins -> Add New -> Upload Plugin**.
 3. Choose the plugin ZIP file and click **Install Now**.
 4. Click **Activate Plugin**.
-5. Go to **Settings -> NovaChat Widget** in your WordPress Admin to choose your AI provider, input your API key, customize widgets, and set canned rules.
+5. Go to **Settings -> AuraChat Widget** in your WordPress Admin to choose your AI provider, input your API key, customize widgets, and set canned rules.
 
 == Frequently Asked Questions ==
 
 = Does this plugin slow down my website? =
-Not at all. NovaChat is self-contained with no heavy external CSS/JS libraries or web fonts to download. It runs efficiently at under 25KB total asset weight.
+Not at all. AuraChat is self-contained with no heavy external CSS/JS libraries or web fonts to download. It runs efficiently at under 25KB total asset weight.
 
 = How do I configure Google Gemini AI? =
 Under the **AI Configuration** tab, paste your Gemini API key (which you can get for free from Google AI Studio). The plugin uses the optimized and free-tier friendly `gemini-flash-latest` model.
@@ -47,7 +47,7 @@ Under the **AI Configuration** tab, paste your Gemini API key (which you can get
 Yes! The plugin fully integrates with OpenAI (`gpt-4o-mini`, `gpt-4o`) and Anthropic Claude (`claude-3-5-haiku`, `claude-3-5-sonnet`). Simply select your active provider in the settings page and insert your API key.
 
 = Where can I customize the branding colors? =
-Go to **Settings -> NovaChat Widget** in your WordPress dashboard and open the **Design & Colors** tab. Use the color pickers to match the launcher button, header backgrounds, and user bubbles to your site's branding.
+Go to **Settings -> AuraChat Widget** in your WordPress dashboard and open the **Design & Colors** tab. Use the color pickers to match the launcher button, header backgrounds, and user bubbles to your site's branding.
 
 == Changelog ==
 
@@ -58,4 +58,4 @@ Go to **Settings -> NovaChat Widget** in your WordPress dashboard and open the *
 * General performance enhancements, cleanups, and codebase alignment.
 
 = 1.0.0 =
-* Initial release of NovaChat Live Chat Widget for WordPress.
+* Initial release of AuraChat Live Chat Widget for WordPress.

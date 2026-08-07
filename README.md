@@ -1,4 +1,4 @@
-# 💬 NovaChat — WordPress Live Chat Widget Plugin
+# 💬 AuraChat — WordPress Live Chat Widget Plugin
 
 A drop-in, zero-dependency WordPress live chat plugin with customizable bot branding, quick-reply chips, keyword auto-responder, operating hours indicator, and optional AI / Webhook backend connection.
 
@@ -7,8 +7,8 @@ A drop-in, zero-dependency WordPress live chat plugin with customizable bot bran
 ## 📦 What's Included in This Plugin Folder
 
 ```
-novachat-live-chat/
-├── novachat.php              # Main WordPress Plugin file & Settings API
+aurachat-live-chat/
+├── aurachat.php              # Main WordPress Plugin file & Settings API
 ├── readme.txt                # WordPress.org standard metadata & documentation
 ├── README.md                 # Full documentation & configuration guide
 ├── index.php                 # Direct access security protection
@@ -30,23 +30,23 @@ novachat-live-chat/
 ### Method 1: Upload via WordPress Admin (Easiest)
 1. In your WordPress Admin sidebar, navigate to **Plugins → Add New Plugin**.
 2. Click the **Upload Plugin** button at the top.
-3. Choose **`novachat-live-chat.zip`** (or **`chatbotplugin.zip`**) from your Downloads folder.
+3. Choose **`aurachat-live-chat.zip`** (or **`chatbotplugin.zip`**) from your Downloads folder.
 4. Click **Install Now**, then click **Activate Plugin**.
-5. Go to **Settings → NovaChat Widget** in your WordPress Admin sidebar to configure your branding and responses.
+5. Go to **Settings → AuraChat Widget** in your WordPress Admin sidebar to configure your branding and responses.
 
 ### Method 2: Manual Folder Upload (FTP / cPanel / Localhost)
-1. Copy or extract this **`novachat-live-chat`** directory into your WordPress plugins directory:
+1. Copy or extract this **`aurachat-live-chat`** directory into your WordPress plugins directory:
    ```
-   wp-content/plugins/novachat-live-chat/
+   wp-content/plugins/aurachat-live-chat/
    ```
 2. In WordPress Admin, go to **Plugins → Installed Plugins**.
-3. Find **NovaChat — Live Chat Widget** and click **Activate**.
+3. Find **AuraChat — Live Chat Widget** and click **Activate**.
 
 ---
 
 ## ⚙️ Configuration & Features
 
-Go to **WordPress Admin → Settings → NovaChat Widget**:
+Go to **WordPress Admin → Settings → AuraChat Widget**:
 
 ### 1. General & Identity
 - **Enable / Disable Widget**: Easily toggle the widget on or off site-wide.
@@ -74,7 +74,7 @@ Go to **WordPress Admin → Settings → NovaChat Widget**:
 
 ### 5. AI / Custom Webhook API Integration (Optional)
 Connect your chat widget directly to an external API (e.g., OpenAI Assistant, Zapier, Make.com, or Node/Python backend).
-Simply enter your endpoint URL in **Settings → NovaChat Widget → API & Integrations**:
+Simply enter your endpoint URL in **Settings → AuraChat Widget → API & Integrations**:
 - **Outgoing Payload**: `{"message": "User text"}`
 - **Expected Return JSON**: `{"reply": "Bot answer"}`
 
@@ -82,14 +82,14 @@ Simply enter your endpoint URL in **Settings → NovaChat Widget → API & Integ
 
 ## 🛠️ Programmatic JavaScript API
 
-The widget automatically registers `window.NovaChat` on the frontend for custom JavaScript interactions:
+The widget automatically registers `window.AuraChat` on the frontend for custom JavaScript interactions:
 
 ```javascript
-NovaChat.open();                    // Open the chat panel
-NovaChat.close();                   // Close the chat panel
-NovaChat.toggle();                  // Toggle open / closed
-NovaChat.sendMessage("Hello!");     // Trigger a message programmatically
-NovaChat.clearHistory();            // Reset chat history and restart
+AuraChat.open();                    // Open the chat panel
+AuraChat.close();                   // Close the chat panel
+AuraChat.toggle();                  // Toggle open / closed
+AuraChat.sendMessage("Hello!");     // Trigger a message programmatically
+AuraChat.clearHistory();            // Reset chat history and restart
 ```
 
 ---
