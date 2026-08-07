@@ -4,8 +4,8 @@
  * Plugin URI:        https://github.com/novachat/novachat-wp
  * Description:       Lightweight live chat widget with Google Gemini AI integration, bot branding, quick replies, keyword auto-responder, operating hours, and sound effects.
  * Version:           1.1.0
- * Author:            NovaChat Team
- * Author URI:        https://novachat.io
+ * Author:            chaudhryyousuf33
+ * Author URI:        https://github.com/chyousuf
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       novachat
