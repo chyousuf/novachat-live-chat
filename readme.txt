@@ -1,6 +1,6 @@
 === AuraChat — Live Chat Widget ===
 Contributors: chaudhryyousuf33
-Tags: live chat, chatbot, chat widget, customer support, ai assistant, gemini, openai, claude
+Tags: live chat, chatbot, chat widget, customer support, ai assistant
 Requires at least: 5.4
 Tested up to: 7.0
 Stable tag: 1.1.0
@@ -8,7 +8,7 @@ Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Lightweight, dependency-free live chat widget with customizable bot branding, Google Gemini AI, OpenAI ChatGPT, and Anthropic Claude integration, quick replies, keyword auto-responder, operating hours, and sound effects.
+Lightweight website live chat widget integrated with Google Gemini, OpenAI ChatGPT, and Anthropic Claude AI support.
 
 == Description ==
 

@@ -13,8 +13,8 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) && ! defined( 'ABSPATH' ) ) {
-    die;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
 }
 
 define( 'AURACHAT_VERSION', '1.1.0' );
@@ -343,8 +343,6 @@ class AuraChat_Plugin {
                         'reply' => $reply_text,
                         'source' => 'gemini'
                     ), 200 );
-                } elseif ( isset( $body['error']['message'] ) ) {
-                    error_log( 'AuraChat Gemini API Error: ' . $body['error']['message'] );
                 }
             }
         }
@@ -393,8 +391,6 @@ class AuraChat_Plugin {
                         'reply' => $reply_text,
                         'source' => 'openai'
                     ), 200 );
-                } elseif ( isset( $body['error']['message'] ) ) {
-                    error_log( 'AuraChat OpenAI API Error: ' . $body['error']['message'] );
                 }
             }
         }
@@ -442,8 +438,6 @@ class AuraChat_Plugin {
                         'reply' => $reply_text,
                         'source' => 'anthropic'
                     ), 200 );
-                } elseif ( isset( $body['error']['message'] ) ) {
-                    error_log( 'AuraChat Anthropic API Error: ' . $body['error']['message'] );
                 }
             }
         }
@@ -476,7 +470,7 @@ class AuraChat_Plugin {
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
-        $opts = self::get_options();
+        $aurachat_opts = self::get_options();
         require_once AURACHAT_PLUGIN_DIR . 'templates/admin-settings.php';
     }
 

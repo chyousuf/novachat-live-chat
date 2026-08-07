@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$opts = self::get_options();
+$aurachat_opts = self::get_options();
 ?>
 
 <div class="wrap aurachat-admin-wrap">
@@ -20,9 +20,9 @@ $opts = self::get_options();
             <h1><?php esc_html_e( 'AuraChat — Live Chat Widget Settings', 'aurachat-live-chat-widget' ); ?></h1>
             <p class="aurachat-tagline"><?php esc_html_e( 'Configure your live chat widget branding, Google Gemini AI integration, canned responses, and operating hours.', 'aurachat-live-chat-widget' ); ?></p>
         </div>
-        <div class="aurachat-status-badge <?php echo ! empty( $opts['enabled'] ) ? 'status-active' : 'status-inactive'; ?>">
+        <div class="aurachat-status-badge <?php echo ! empty( $aurachat_opts['enabled'] ) ? 'status-active' : 'status-inactive'; ?>">
             <span class="status-indicator"></span>
-            <span><?php echo ! empty( $opts['enabled'] ) ? esc_html__( 'Widget Active', 'aurachat-live-chat-widget' ) : esc_html__( 'Widget Disabled', 'aurachat-live-chat-widget' ); ?></span>
+            <span><?php echo ! empty( $aurachat_opts['enabled'] ) ? esc_html__( 'Widget Active', 'aurachat-live-chat-widget' ) : esc_html__( 'Widget Disabled', 'aurachat-live-chat-widget' ); ?></span>
         </div>
     </div>
 
@@ -68,11 +68,11 @@ $opts = self::get_options();
                         
                         <div class="aurachat-field" style="margin-top: 15px;">
                             <select id="aurachat_ai_provider" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[ai_provider]" class="regular-text" style="font-size:14px; padding: 6px 10px; width: 100%; max-width: 400px;">
-                                <option value="gemini" <?php selected( 'gemini', $opts['ai_provider'] ?? 'gemini' ); ?>><?php esc_html_e( 'Google Gemini AI (Recommended)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="openai" <?php selected( 'openai', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'OpenAI (ChatGPT)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="anthropic" <?php selected( 'anthropic', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Anthropic (Claude)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="rules" <?php selected( 'rules', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Keyword Auto-Responder Rules Only', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="webhook" <?php selected( 'webhook', $opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Custom Webhook / External API Proxy', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini" <?php selected( 'gemini', $aurachat_opts['ai_provider'] ?? 'gemini' ); ?>><?php esc_html_e( 'Google Gemini AI (Recommended)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="openai" <?php selected( 'openai', $aurachat_opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'OpenAI (ChatGPT)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="anthropic" <?php selected( 'anthropic', $aurachat_opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Anthropic (Claude)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="rules" <?php selected( 'rules', $aurachat_opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Keyword Auto-Responder Rules Only', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="webhook" <?php selected( 'webhook', $aurachat_opts['ai_provider'] ?? '' ); ?>><?php esc_html_e( 'Custom Webhook / External API Proxy', 'aurachat-live-chat-widget' ); ?></option>
                             </select>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label for="gemini_api_key"><strong><?php esc_html_e( 'Google Gemini API Key', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <div class="key-input-wrapper" style="display:flex; gap:6px;">
-                                <input type="password" id="gemini_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_api_key]" value="<?php echo esc_attr( $opts['gemini_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="AIzaSy..." autocomplete="off" />
+                                <input type="password" id="gemini_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_api_key]" value="<?php echo esc_attr( $aurachat_opts['gemini_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="AIzaSy..." autocomplete="off" />
                                 <button type="button" class="button button-secondary toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'aurachat-live-chat-widget' ); ?>">
                                     <span class="dashicons dashicons-visibility"></span>
                                 </button>
@@ -113,19 +113,19 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label for="gemini_model"><strong><?php esc_html_e( 'Gemini AI Model', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <select id="gemini_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_model]" class="regular-text">
-                                <option value="gemini-flash-latest" <?php selected( 'gemini-flash-latest', $opts['gemini_model'] ?? 'gemini-flash-latest' ); ?>><?php esc_html_e( 'Gemini Flash (Recommended — Fastest & Free Tier Friendly)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gemini-2.0-flash" <?php selected( 'gemini-2.0-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gemini-2.0-flash-lite" <?php selected( 'gemini-2.0-flash-lite', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash Lite', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gemini-2.5-flash" <?php selected( 'gemini-2.5-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.5 Flash', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gemini-2.5-pro" <?php selected( 'gemini-2.5-pro', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.5 Pro', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gemini-3.5-flash" <?php selected( 'gemini-3.5-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 3.5 Flash (Next-Gen)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gemini-1.5-pro" <?php selected( 'gemini-1.5-pro', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 1.5 Pro (Advanced reasoning)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-flash-latest" <?php selected( 'gemini-flash-latest', $aurachat_opts['gemini_model'] ?? 'gemini-flash-latest' ); ?>><?php esc_html_e( 'Gemini Flash (Recommended — Fastest & Free Tier Friendly)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-2.0-flash" <?php selected( 'gemini-2.0-flash', $aurachat_opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-2.0-flash-lite" <?php selected( 'gemini-2.0-flash-lite', $aurachat_opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash Lite', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-2.5-flash" <?php selected( 'gemini-2.5-flash', $aurachat_opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.5 Flash', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-2.5-pro" <?php selected( 'gemini-2.5-pro', $aurachat_opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.5 Pro', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-3.5-flash" <?php selected( 'gemini-3.5-flash', $aurachat_opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 3.5 Flash (Next-Gen)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gemini-1.5-pro" <?php selected( 'gemini-1.5-pro', $aurachat_opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 1.5 Pro (Advanced reasoning)', 'aurachat-live-chat-widget' ); ?></option>
                             </select>
                         </div>
 
                         <div class="aurachat-field">
                             <label for="gemini_system_prompt"><strong><?php esc_html_e( 'Gemini AI System Instructions (System Prompt)', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <textarea id="gemini_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $opts['gemini_system_prompt'] ?? '' ); ?></textarea>
+                            <textarea id="gemini_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $aurachat_opts['gemini_system_prompt'] ?? '' ); ?></textarea>
                             <p class="description"><?php esc_html_e( 'Define the personality, tone, and specific knowledge limits of the bot.', 'aurachat-live-chat-widget' ); ?></p>
                         </div>
                     </div>
@@ -156,7 +156,7 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label for="openai_api_key"><strong><?php esc_html_e( 'OpenAI API Key', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <div class="key-input-wrapper" style="display:flex; gap:6px;">
-                                <input type="password" id="openai_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_api_key]" value="<?php echo esc_attr( $opts['openai_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="sk-proj-..." autocomplete="off" />
+                                <input type="password" id="openai_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_api_key]" value="<?php echo esc_attr( $aurachat_opts['openai_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="sk-proj-..." autocomplete="off" />
                                 <button type="button" class="button button-secondary toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'aurachat-live-chat-widget' ); ?>">
                                     <span class="dashicons dashicons-visibility"></span>
                                 </button>
@@ -166,18 +166,18 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label for="openai_model"><strong><?php esc_html_e( 'OpenAI Model', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <select id="openai_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_model]" class="regular-text">
-                                <option value="gpt-4o-mini" <?php selected( 'gpt-4o-mini', $opts['openai_model'] ?? 'gpt-4o-mini' ); ?>><?php esc_html_e( 'GPT-4o Mini (Recommended — Fast & Low Cost)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gpt-4o" <?php selected( 'gpt-4o', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4o (Premium Multimodal)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="o1-mini" <?php selected( 'o1-mini', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'o1-mini (Reasoning Model)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="o1-preview" <?php selected( 'o1-preview', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'o1-preview (Reasoning Model)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gpt-4-turbo" <?php selected( 'gpt-4-turbo', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4 Turbo', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="gpt-3.5-turbo" <?php selected( 'gpt-3.5-turbo', $opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-3.5 Turbo (Legacy)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gpt-4o-mini" <?php selected( 'gpt-4o-mini', $aurachat_opts['openai_model'] ?? 'gpt-4o-mini' ); ?>><?php esc_html_e( 'GPT-4o Mini (Recommended — Fast & Low Cost)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gpt-4o" <?php selected( 'gpt-4o', $aurachat_opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4o (Premium Multimodal)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="o1-mini" <?php selected( 'o1-mini', $aurachat_opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'o1-mini (Reasoning Model)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="o1-preview" <?php selected( 'o1-preview', $aurachat_opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'o1-preview (Reasoning Model)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gpt-4-turbo" <?php selected( 'gpt-4-turbo', $aurachat_opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-4 Turbo', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="gpt-3.5-turbo" <?php selected( 'gpt-3.5-turbo', $aurachat_opts['openai_model'] ?? '' ); ?>><?php esc_html_e( 'GPT-3.5 Turbo (Legacy)', 'aurachat-live-chat-widget' ); ?></option>
                             </select>
                         </div>
 
                         <div class="aurachat-field">
                             <label for="openai_system_prompt"><strong><?php esc_html_e( 'OpenAI System Instructions (System Prompt)', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <textarea id="openai_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $opts['openai_system_prompt'] ?? '' ); ?></textarea>
+                            <textarea id="openai_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[openai_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $aurachat_opts['openai_system_prompt'] ?? '' ); ?></textarea>
                             <p class="description"><?php esc_html_e( 'Define the personality, tone, and specific knowledge limits of the bot.', 'aurachat-live-chat-widget' ); ?></p>
                         </div>
                     </div>
@@ -208,7 +208,7 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label for="anthropic_api_key"><strong><?php esc_html_e( 'Anthropic API Key', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <div class="key-input-wrapper" style="display:flex; gap:6px;">
-                                <input type="password" id="anthropic_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_api_key]" value="<?php echo esc_attr( $opts['anthropic_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="sk-ant-..." autocomplete="off" />
+                                <input type="password" id="anthropic_api_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_api_key]" value="<?php echo esc_attr( $aurachat_opts['anthropic_api_key'] ?? '' ); ?>" class="large-text code-input" placeholder="sk-ant-..." autocomplete="off" />
                                 <button type="button" class="button button-secondary toggle-key-visibility" title="<?php esc_attr_e( 'Show / Hide Key', 'aurachat-live-chat-widget' ); ?>">
                                     <span class="dashicons dashicons-visibility"></span>
                                 </button>
@@ -218,16 +218,16 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label for="anthropic_model"><strong><?php esc_html_e( 'Claude Model', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <select id="anthropic_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_model]" class="regular-text">
-                                <option value="claude-3-5-haiku-20241022" <?php selected( 'claude-3-5-haiku-20241022', $opts['anthropic_model'] ?? 'claude-3-5-haiku-20241022' ); ?>><?php esc_html_e( 'Claude 3.5 Haiku (Recommended — Fast & Intelligent)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="claude-3-5-sonnet-20241022" <?php selected( 'claude-3-5-sonnet-20241022', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3.5 Sonnet (State-of-the-Art Reasoning)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="claude-3-opus-20240229" <?php selected( 'claude-3-opus-20240229', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3 Opus (Premium Creative Reasoning)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="claude-3-haiku-20240307" <?php selected( 'claude-3-haiku-20240307', $opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3 Haiku (Legacy)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="claude-3-5-haiku-20241022" <?php selected( 'claude-3-5-haiku-20241022', $aurachat_opts['anthropic_model'] ?? 'claude-3-5-haiku-20241022' ); ?>><?php esc_html_e( 'Claude 3.5 Haiku (Recommended — Fast & Intelligent)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="claude-3-5-sonnet-20241022" <?php selected( 'claude-3-5-sonnet-20241022', $aurachat_opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3.5 Sonnet (State-of-the-Art Reasoning)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="claude-3-opus-20240229" <?php selected( 'claude-3-opus-20240229', $aurachat_opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3 Opus (Premium Creative Reasoning)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="claude-3-haiku-20240307" <?php selected( 'claude-3-haiku-20240307', $aurachat_opts['anthropic_model'] ?? '' ); ?>><?php esc_html_e( 'Claude 3 Haiku (Legacy)', 'aurachat-live-chat-widget' ); ?></option>
                             </select>
                         </div>
 
                         <div class="aurachat-field">
                             <label for="anthropic_system_prompt"><strong><?php esc_html_e( 'Claude System Instructions (System Prompt)', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <textarea id="anthropic_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $opts['anthropic_system_prompt'] ?? '' ); ?></textarea>
+                            <textarea id="anthropic_system_prompt" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[anthropic_system_prompt]" rows="4" class="large-text" placeholder="You are a helpful customer support bot..."><?php echo esc_textarea( $aurachat_opts['anthropic_system_prompt'] ?? '' ); ?></textarea>
                             <p class="description"><?php esc_html_e( 'Define the personality, tone, and specific knowledge limits of the bot.', 'aurachat-live-chat-widget' ); ?></p>
                         </div>
                     </div>
@@ -268,7 +268,7 @@ $opts = self::get_options();
                         <h3><?php esc_html_e( 'Widget Activation', 'aurachat-live-chat-widget' ); ?></h3>
                         <div class="aurachat-field toggle-field">
                             <label class="switch-label">
-                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[enabled]" value="1" <?php checked( 1, $opts['enabled'] ); ?> id="aurachat-toggle-enabled" />
+                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[enabled]" value="1" <?php checked( 1, $aurachat_opts['enabled'] ); ?> id="aurachat-toggle-enabled" />
                                 <span class="slider"></span>
                                 <span class="label-text"><strong><?php esc_html_e( 'Enable Chat Widget on Website', 'aurachat-live-chat-widget' ); ?></strong></span>
                             </label>
@@ -282,13 +282,13 @@ $opts = self::get_options();
                         <div class="aurachat-grid-2">
                             <div class="aurachat-field">
                                 <label for="bot_name"><strong><?php esc_html_e( 'Bot / Agent Name', 'aurachat-live-chat-widget' ); ?></strong></label>
-                                <input type="text" id="bot_name" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[bot_name]" value="<?php echo esc_attr( $opts['bot_name'] ); ?>" class="regular-text" placeholder="e.g. Nova" required />
+                                <input type="text" id="bot_name" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[bot_name]" value="<?php echo esc_attr( $aurachat_opts['bot_name'] ); ?>" class="regular-text" placeholder="e.g. Nova" required />
                                 <p class="description"><?php esc_html_e( 'Name displayed in header and message bubbles.', 'aurachat-live-chat-widget' ); ?></p>
                             </div>
 
                             <div class="aurachat-field">
                                 <label for="bot_title"><strong><?php esc_html_e( 'Role / Subtitle', 'aurachat-live-chat-widget' ); ?></strong></label>
-                                <input type="text" id="bot_title" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[bot_title]" value="<?php echo esc_attr( $opts['bot_title'] ); ?>" class="regular-text" placeholder="e.g. AI Support Assistant" />
+                                <input type="text" id="bot_title" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[bot_title]" value="<?php echo esc_attr( $aurachat_opts['bot_title'] ); ?>" class="regular-text" placeholder="e.g. AI Support Assistant" />
                                 <p class="description"><?php esc_html_e( 'Subtitle shown directly beneath the name.', 'aurachat-live-chat-widget' ); ?></p>
                             </div>
                         </div>
@@ -296,25 +296,25 @@ $opts = self::get_options();
                         <div class="aurachat-grid-2">
                             <div class="aurachat-field">
                                 <label for="avatar_initial"><strong><?php esc_html_e( 'Avatar Initial / Icon Letter', 'aurachat-live-chat-widget' ); ?></strong></label>
-                                <input type="text" id="avatar_initial" maxlength="3" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[avatar_initial]" value="<?php echo esc_attr( $opts['avatar_initial'] ); ?>" class="small-text" style="text-align:center;font-weight:bold;font-size:16px;" />
+                                <input type="text" id="avatar_initial" maxlength="3" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[avatar_initial]" value="<?php echo esc_attr( $aurachat_opts['avatar_initial'] ); ?>" class="small-text" style="text-align:center;font-weight:bold;font-size:16px;" />
                                 <p class="description"><?php esc_html_e( '1-2 characters for the avatar circle (e.g. "N" or "🤖").', 'aurachat-live-chat-widget' ); ?></p>
                             </div>
 
                             <div class="aurachat-field">
                                 <label for="launcher_label"><strong><?php esc_html_e( 'Launcher Button Tooltip / ARIA Label', 'aurachat-live-chat-widget' ); ?></strong></label>
-                                <input type="text" id="launcher_label" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[launcher_label]" value="<?php echo esc_attr( $opts['launcher_label'] ); ?>" class="regular-text" placeholder="Chat with us" />
+                                <input type="text" id="launcher_label" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[launcher_label]" value="<?php echo esc_attr( $aurachat_opts['launcher_label'] ); ?>" class="regular-text" placeholder="Chat with us" />
                             </div>
                         </div>
 
                         <div class="aurachat-field">
                             <label for="welcome_message"><strong><?php esc_html_e( 'Welcome Greeting Message', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <textarea id="welcome_message" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[welcome_message]" rows="3" class="large-text" placeholder="Type your greeting message..."><?php echo esc_textarea( $opts['welcome_message'] ); ?></textarea>
+                            <textarea id="welcome_message" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[welcome_message]" rows="3" class="large-text" placeholder="Type your greeting message..."><?php echo esc_textarea( $aurachat_opts['welcome_message'] ); ?></textarea>
                             <p class="description"><?php esc_html_e( 'The first message the visitor sees when opening the chat widget.', 'aurachat-live-chat-widget' ); ?></p>
                         </div>
 
                         <div class="aurachat-field">
                             <label for="placeholder"><strong><?php esc_html_e( 'Input Placeholder Text', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <input type="text" id="placeholder" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[placeholder]" value="<?php echo esc_attr( $opts['placeholder'] ); ?>" class="large-text" placeholder="Type your message…" />
+                            <input type="text" id="placeholder" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[placeholder]" value="<?php echo esc_attr( $aurachat_opts['placeholder'] ); ?>" class="large-text" placeholder="Type your message…" />
                         </div>
                     </div>
                 </div>
@@ -327,13 +327,13 @@ $opts = self::get_options();
                         <div class="aurachat-grid-2">
                             <div class="aurachat-field">
                                 <label for="primary_color"><strong><?php esc_html_e( 'Primary Brand Accent Color', 'aurachat-live-chat-widget' ); ?></strong></label>
-                                <input type="text" id="primary_color" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[primary_color]" value="<?php echo esc_attr( $opts['primary_color'] ); ?>" class="aurachat-color-picker" />
+                                <input type="text" id="primary_color" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[primary_color]" value="<?php echo esc_attr( $aurachat_opts['primary_color'] ); ?>" class="aurachat-color-picker" />
                                 <p class="description"><?php esc_html_e( 'Used for launcher button, user bubbles, send button, and active chips.', 'aurachat-live-chat-widget' ); ?></p>
                             </div>
 
                             <div class="aurachat-field">
                                 <label for="accent_color"><strong><?php esc_html_e( 'Header & Dark Text Color', 'aurachat-live-chat-widget' ); ?></strong></label>
-                                <input type="text" id="accent_color" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[accent_color]" value="<?php echo esc_attr( $opts['accent_color'] ); ?>" class="aurachat-color-picker" />
+                                <input type="text" id="accent_color" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[accent_color]" value="<?php echo esc_attr( $aurachat_opts['accent_color'] ); ?>" class="aurachat-color-picker" />
                                 <p class="description"><?php esc_html_e( 'Background color of the chat widget header and dark text elements.', 'aurachat-live-chat-widget' ); ?></p>
                             </div>
                         </div>
@@ -343,16 +343,16 @@ $opts = self::get_options();
                         <div class="aurachat-field">
                             <label><strong><?php esc_html_e( 'Widget Position on Screen', 'aurachat-live-chat-widget' ); ?></strong></label>
                             <div class="aurachat-radio-cards">
-                                <label class="radio-card <?php echo 'right' === $opts['position'] ? 'selected' : ''; ?>">
-                                    <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[position]" value="right" <?php checked( 'right', $opts['position'] ); ?> />
+                                <label class="radio-card <?php echo 'right' === $aurachat_opts['position'] ? 'selected' : ''; ?>">
+                                    <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[position]" value="right" <?php checked( 'right', $aurachat_opts['position'] ); ?> />
                                     <div class="radio-card-body">
                                         <span class="dashicons dashicons-align-right"></span>
                                         <strong><?php esc_html_e( 'Bottom Right (Standard)', 'aurachat-live-chat-widget' ); ?></strong>
                                         <p><?php esc_html_e( 'Pinned to bottom-right corner of viewport.', 'aurachat-live-chat-widget' ); ?></p>
                                     </div>
                                 </label>
-                                <label class="radio-card <?php echo 'left' === $opts['position'] ? 'selected' : ''; ?>">
-                                    <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[position]" value="left" <?php checked( 'left', $opts['position'] ); ?> />
+                                <label class="radio-card <?php echo 'left' === $aurachat_opts['position'] ? 'selected' : ''; ?>">
+                                    <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[position]" value="left" <?php checked( 'left', $aurachat_opts['position'] ); ?> />
                                     <div class="radio-card-body">
                                         <span class="dashicons dashicons-align-left"></span>
                                         <strong><?php esc_html_e( 'Bottom Left', 'aurachat-live-chat-widget' ); ?></strong>
@@ -370,7 +370,7 @@ $opts = self::get_options();
                         <h3><?php esc_html_e( 'Quick Reply Suggestion Chips', 'aurachat-live-chat-widget' ); ?></h3>
                         <p class="description"><?php esc_html_e( 'Enter suggestion buttons shown above the input box (one per line).', 'aurachat-live-chat-widget' ); ?></p>
                         <div class="aurachat-field">
-                            <textarea id="quick_replies" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[quick_replies]" rows="4" class="large-text" placeholder="What services do you offer?&#10;Pricing details&#10;Talk to a human"><?php echo esc_textarea( $opts['quick_replies'] ); ?></textarea>
+                            <textarea id="quick_replies" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[quick_replies]" rows="4" class="large-text" placeholder="What services do you offer?&#10;Pricing details&#10;Talk to a human"><?php echo esc_textarea( $aurachat_opts['quick_replies'] ); ?></textarea>
                         </div>
                     </div>
 
@@ -392,15 +392,15 @@ $opts = self::get_options();
                                 <div class="col-act"><?php esc_html_e( 'Action', 'aurachat-live-chat-widget' ); ?></div>
                             </div>
                             <?php
-                            if ( ! empty( $opts['custom_responses'] ) && is_array( $opts['custom_responses'] ) ) :
-                                foreach ( $opts['custom_responses'] as $idx => $item ) :
+                            if ( ! empty( $aurachat_opts['custom_responses'] ) && is_array( $aurachat_opts['custom_responses'] ) ) :
+                                foreach ( $aurachat_opts['custom_responses'] as $aurachat_idx => $aurachat_item ) :
                             ?>
                                 <div class="rule-row">
                                     <div class="col-kw">
-                                        <input type="text" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[responses_keyword][]" value="<?php echo esc_attr( $item['keyword'] ?? '' ); ?>" placeholder="e.g. pricing, refund" class="regular-text" required />
+                                        <input type="text" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[responses_keyword][]" value="<?php echo esc_attr( $aurachat_item['keyword'] ?? '' ); ?>" placeholder="e.g. pricing, refund" class="regular-text" required />
                                     </div>
                                     <div class="col-reply">
-                                        <textarea name="<?php echo esc_attr( self::OPTION_KEY ); ?>[responses_reply][]" rows="2" class="large-text" placeholder="Bot reply content..." required><?php echo esc_textarea( $item['reply'] ?? '' ); ?></textarea>
+                                        <textarea name="<?php echo esc_attr( self::OPTION_KEY ); ?>[responses_reply][]" rows="2" class="large-text" placeholder="Bot reply content..." required><?php echo esc_textarea( $aurachat_item['reply'] ?? '' ); ?></textarea>
                                     </div>
                                     <div class="col-act">
                                         <button type="button" class="button button-link-delete aurachat-remove-row" title="<?php esc_attr_e( 'Remove Rule', 'aurachat-live-chat-widget' ); ?>">
@@ -418,7 +418,7 @@ $opts = self::get_options();
 
                         <div class="aurachat-field">
                             <label for="default_reply"><strong><?php esc_html_e( 'Default Fallback Reply', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <textarea id="default_reply" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[default_reply]" rows="3" class="large-text"><?php echo esc_textarea( $opts['default_reply'] ); ?></textarea>
+                            <textarea id="default_reply" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[default_reply]" rows="3" class="large-text"><?php echo esc_textarea( $aurachat_opts['default_reply'] ); ?></textarea>
                             <p class="description"><?php esc_html_e( 'Used when Gemini AI or keyword rules do not return a match.', 'aurachat-live-chat-widget' ); ?></p>
                         </div>
                     </div>
@@ -431,17 +431,17 @@ $opts = self::get_options();
 
                         <div class="aurachat-checkbox-group">
                             <label>
-                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[show_timestamps]" value="1" <?php checked( 1, $opts['show_timestamps'] ); ?> />
+                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[show_timestamps]" value="1" <?php checked( 1, $aurachat_opts['show_timestamps'] ); ?> />
                                 <strong><?php esc_html_e( 'Show message timestamps (e.g. 10:30 AM)', 'aurachat-live-chat-widget' ); ?></strong>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[persist_history]" value="1" <?php checked( 1, $opts['persist_history'] ); ?> />
+                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[persist_history]" value="1" <?php checked( 1, $aurachat_opts['persist_history'] ); ?> />
                                 <strong><?php esc_html_e( 'Save conversation history across page refreshes (localStorage)', 'aurachat-live-chat-widget' ); ?></strong>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[sound_enabled]" value="1" <?php checked( 1, $opts['sound_enabled'] ); ?> />
+                                <input type="checkbox" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[sound_enabled]" value="1" <?php checked( 1, $aurachat_opts['sound_enabled'] ); ?> />
                                 <strong><?php esc_html_e( 'Enable audio ping notification on new bot messages', 'aurachat-live-chat-widget' ); ?></strong>
                             </label>
                         </div>
@@ -450,7 +450,7 @@ $opts = self::get_options();
 
                         <div class="aurachat-field">
                             <label for="storage_key"><strong><?php esc_html_e( 'LocalStorage Storage Key', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <input type="text" id="storage_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[storage_key]" value="<?php echo esc_attr( $opts['storage_key'] ); ?>" class="regular-text" />
+                            <input type="text" id="storage_key" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[storage_key]" value="<?php echo esc_attr( $aurachat_opts['storage_key'] ); ?>" class="regular-text" />
                             <p class="description"><?php esc_html_e( 'Change this key if you ever want to force-reset client chat histories site-wide.', 'aurachat-live-chat-widget' ); ?></p>
                         </div>
                     </div>
@@ -460,28 +460,28 @@ $opts = self::get_options();
 
                         <div class="aurachat-field">
                             <label>
-                                <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_mode]" value="always_online" <?php checked( 'always_online', $opts['offline_mode'] ); ?> class="hours-toggle" />
+                                <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_mode]" value="always_online" <?php checked( 'always_online', $aurachat_opts['offline_mode'] ); ?> class="hours-toggle" />
                                 <strong><?php esc_html_e( 'Always Online (24/7 Green Dot)', 'aurachat-live-chat-widget' ); ?></strong>
                             </label>
                         </div>
 
                         <div class="aurachat-field">
                             <label>
-                                <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_mode]" value="custom_hours" <?php checked( 'custom_hours', $opts['offline_mode'] ); ?> class="hours-toggle" />
+                                <input type="radio" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_mode]" value="custom_hours" <?php checked( 'custom_hours', $aurachat_opts['offline_mode'] ); ?> class="hours-toggle" />
                                 <strong><?php esc_html_e( 'Custom Business Hours (Local Visitor Time)', 'aurachat-live-chat-widget' ); ?></strong>
                             </label>
                         </div>
 
-                        <div id="custom-hours-fields" class="aurachat-hours-box" style="<?php echo 'custom_hours' === $opts['offline_mode'] ? '' : 'display:none;'; ?>">
+                        <div id="custom-hours-fields" class="aurachat-hours-box" style="<?php echo 'custom_hours' === $aurachat_opts['offline_mode'] ? '' : 'display:none;'; ?>">
                             <div class="aurachat-grid-2">
                                 <div>
                                     <label for="offline_start"><?php esc_html_e( 'Opening Hour (0-23)', 'aurachat-live-chat-widget' ); ?></label>
-                                    <input type="number" min="0" max="23" id="offline_start" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_start]" value="<?php echo esc_attr( $opts['offline_start'] ); ?>" class="small-text" />
+                                    <input type="number" min="0" max="23" id="offline_start" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_start]" value="<?php echo esc_attr( $aurachat_opts['offline_start'] ); ?>" class="small-text" />
                                     <span class="hours-suffix">:00 (e.g. 9 = 9 AM)</span>
                                 </div>
                                 <div>
                                     <label for="offline_end"><?php esc_html_e( 'Closing Hour (0-23)', 'aurachat-live-chat-widget' ); ?></label>
-                                    <input type="number" min="0" max="23" id="offline_end" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_end]" value="<?php echo esc_attr( $opts['offline_end'] ); ?>" class="small-text" />
+                                    <input type="number" min="0" max="23" id="offline_end" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[offline_end]" value="<?php echo esc_attr( $aurachat_opts['offline_end'] ); ?>" class="small-text" />
                                     <span class="hours-suffix">:00 (e.g. 18 = 6 PM)</span>
                                 </div>
                             </div>
@@ -492,9 +492,9 @@ $opts = self::get_options();
                         <h3><?php esc_html_e( 'Display Visibility Rules', 'aurachat-live-chat-widget' ); ?></h3>
                         <div class="aurachat-field">
                             <select name="<?php echo esc_attr( self::OPTION_KEY ); ?>[display_rule]" id="display_rule" class="regular-text">
-                                <option value="all" <?php selected( 'all', $opts['display_rule'] ); ?>><?php esc_html_e( 'Show on all public pages (Recommended)', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="front_only" <?php selected( 'front_only', $opts['display_rule'] ); ?>><?php esc_html_e( 'Show only on Homepage / Front Page', 'aurachat-live-chat-widget' ); ?></option>
-                                <option value="hide_logged_in" <?php selected( 'hide_logged_in', $opts['display_rule'] ); ?>><?php esc_html_e( 'Hide for logged-in WordPress users', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="all" <?php selected( 'all', $aurachat_opts['display_rule'] ); ?>><?php esc_html_e( 'Show on all public pages (Recommended)', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="front_only" <?php selected( 'front_only', $aurachat_opts['display_rule'] ); ?>><?php esc_html_e( 'Show only on Homepage / Front Page', 'aurachat-live-chat-widget' ); ?></option>
+                                <option value="hide_logged_in" <?php selected( 'hide_logged_in', $aurachat_opts['display_rule'] ); ?>><?php esc_html_e( 'Hide for logged-in WordPress users', 'aurachat-live-chat-widget' ); ?></option>
                             </select>
                         </div>
                     </div>
@@ -508,7 +508,7 @@ $opts = self::get_options();
                         
                         <div class="aurachat-field">
                             <label for="backend_api_url"><strong><?php esc_html_e( 'POST Webhook / API URL', 'aurachat-live-chat-widget' ); ?></strong></label>
-                            <input type="url" id="backend_api_url" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[backend_api_url]" value="<?php echo esc_url( $opts['backend_api_url'] ); ?>" class="large-text" placeholder="https://api.yourdomain.com/v1/chat" />
+                            <input type="url" id="backend_api_url" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[backend_api_url]" value="<?php echo esc_url( $aurachat_opts['backend_api_url'] ); ?>" class="large-text" placeholder="https://api.yourdomain.com/v1/chat" />
                         </div>
                     </div>
                 </div>
@@ -553,7 +553,7 @@ $opts = self::get_options();
                                             </div>
                                         </div>
                                         <div class="mock-win-body">
-                                            <div class="mock-bot-msg" id="mock-welcome-msg"><?php echo esc_html( $opts['welcome_message'] ); ?></div>
+                                            <div class="mock-bot-msg" id="mock-welcome-msg"><?php echo esc_html( $aurachat_opts['welcome_message'] ); ?></div>
                                         </div>
                                     </div>
                                 </div>
