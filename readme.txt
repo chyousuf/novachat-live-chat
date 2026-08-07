@@ -2,7 +2,7 @@
 Contributors: chaudhryyousuf33
 Tags: live chat, chatbot, chat widget, customer support, ai assistant, gemini, openai, claude
 Requires at least: 5.4
-Tested up to: 7.0.3
+Tested up to: 7.0
 Stable tag: 1.1.0
 Requires PHP: 7.2
 License: GPLv2 or later
