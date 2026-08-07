@@ -96,7 +96,7 @@ $opts = self::get_options();
                         <div class="novachat-field">
                             <label for="gemini_model"><strong><?php esc_html_e( 'Gemini AI Model', 'novachat' ); ?></strong></label>
                             <select id="gemini_model" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[gemini_model]" class="regular-text">
-                                <option value="gemini-1.5-flash" <?php selected( 'gemini-1.5-flash', $opts['gemini_model'] ?? 'gemini-1.5-flash' ); ?>><?php esc_html_e( 'Gemini 1.5 Flash (Recommended — Fastest & Free tier friendly)', 'novachat' ); ?></option>
+                                <option value="gemini-flash-latest" <?php selected( 'gemini-flash-latest', $opts['gemini_model'] ?? 'gemini-flash-latest' ); ?>><?php esc_html_e( 'Gemini Flash (Recommended — Fastest & Free Tier Friendly)', 'novachat' ); ?></option>
                                 <option value="gemini-2.0-flash" <?php selected( 'gemini-2.0-flash', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 2.0 Flash (Latest Next-Gen Model)', 'novachat' ); ?></option>
                                 <option value="gemini-1.5-pro" <?php selected( 'gemini-1.5-pro', $opts['gemini_model'] ?? '' ); ?>><?php esc_html_e( 'Gemini 1.5 Pro (Advanced Reasoning)', 'novachat' ); ?></option>
                             </select>

@@ -93,7 +93,7 @@ class NovaChat_Plugin {
             // Gemini AI Settings
             'ai_provider'        => 'gemini', // 'gemini', 'rules', or 'webhook'
             'gemini_api_key'     => '',
-            'gemini_model'       => 'gemini-1.5-flash',
+            'gemini_model'       => 'gemini-flash-latest',
             'gemini_system_prompt' => "You are Nova, a friendly, concise, and helpful customer support AI assistant for our website. Answer questions accurately, keep replies conversational and short (2-4 sentences max), and offer to connect them to human support if needed.",
             // Fallback & Rules
             'custom_responses'   => array(
@@ -276,7 +276,13 @@ class NovaChat_Plugin {
         // 1. If Gemini AI is selected and API key is provided
         if ( 'gemini' === $provider && ! empty( $opts['gemini_api_key'] ) ) {
             $api_key = $opts['gemini_api_key'];
-            $model   = ! empty( $opts['gemini_model'] ) ? $opts['gemini_model'] : 'gemini-1.5-flash';
+            $model   = ! empty( $opts['gemini_model'] ) ? $opts['gemini_model'] : 'gemini-flash-latest';
+            
+            // Map deprecated or legacy model name to gemini-flash-latest
+            if ( 'gemini-1.5-flash' === $model ) {
+                $model = 'gemini-flash-latest';
+            }
+            
             $system_prompt = ! empty( $opts['gemini_system_prompt'] ) ? $opts['gemini_system_prompt'] : '';
 
             $gemini_url = 'https://generativelanguage.googleapis.com/v1beta/models/' . urlencode( $model ) . ':generateContent?key=' . urlencode( $api_key );
